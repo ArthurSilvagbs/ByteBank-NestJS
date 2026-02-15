@@ -1,1 +1,1 @@
-export class Transacoe {}
+export class Transacao {}
