@@ -1,7 +1,10 @@
+import { Conta } from 'src/contas/entities/conta.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -37,7 +40,7 @@ export class Cliente {
   @CreateDateColumn({ name: 'updated_at' })
   updatedAt?: string;
 
-  /*@ManyToMany(() => Conta, (conta) => conta.cliente, { eager: true })
+  @ManyToMany(() => Conta, (conta) => conta.cliente, { eager: true })
   @JoinTable({ name: 'cliente_titular' })
-  contas: Conta[];*/
+  contas: Conta[];
 }
