@@ -18,15 +18,6 @@ export class CreateClienteDto {
   id?: string;
 
   @ApiProperty({
-    description: 'Client CPF (11 digits)',
-    example: '12345678901',
-  })
-  @IsString({ message: 'The cpf must be a string' })
-  @IsNotEmpty({ message: 'The cpf field is required' })
-  @MaxLength(11, { message: 'The cpf must be at most 11 characters long' })
-  cpf: string;
-
-  @ApiProperty({
     description: 'Client name',
     example: 'João Silva',
   })
@@ -34,6 +25,15 @@ export class CreateClienteDto {
   @IsNotEmpty({ message: 'The name field is required' })
   @MaxLength(255, { message: 'The name must be at most 255 characters long' })
   name: string;
+
+  @ApiProperty({
+    description: 'Client CPF (11 digits)',
+    example: '12345678901',
+  })
+  @IsString({ message: 'The cpf must be a string' })
+  @IsNotEmpty({ message: 'The cpf field is required' })
+  @MaxLength(1, { message: 'The cpf must be at most 11 characters long' })
+  cpf: string;
 
   @ApiProperty({
     description: 'Client email',
