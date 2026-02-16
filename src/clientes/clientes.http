@@ -9,11 +9,11 @@ POST http://localhost:3000/clientes
 Content-Type: application/json
 
 {
-  "name": "Teste1",
-  "cpf": "12345678902",
-  "email": "teste1@example.com",
-  "phone": "+5511999999999",
-  "address": "Rua Teste, 123, São Paulo, SP"
+  "name": "Daniela Costa",
+  "cpf": "44455566677",
+  "email": "daniela.c@example.com",
+  "phone": "+5531955554444",
+  "address": "Rua da Bahia, 300, Belo Horizonte, MG"
 }  
 
 ###Atualizar user

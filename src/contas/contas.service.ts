@@ -11,6 +11,7 @@ export class ContasService {
   constructor(
     @InjectRepository(Conta)
     private readonly contaRepository: Repository<Conta>,
+    @InjectRepository(Cliente)
     private readonly clienteRepository: Repository<Cliente>,
   ) {}
 
