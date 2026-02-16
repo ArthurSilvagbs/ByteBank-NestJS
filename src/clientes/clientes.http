@@ -1,0 +1,26 @@
+###Lista de users
+GET http://localhost:3000/clientes
+
+###Get user
+GET http://localhost:3000/clientes/1
+
+###Criar user
+POST http://localhost:3000/clientes
+Content-Type: application/json
+
+{
+  "name": "Teste15",
+  "email": "teste15@example.com",
+  "password": "123456"
+}  
+
+###Atualizar user
+PATCH http://localhost:3000/clientes/1
+Content-Type: application/json
+
+{
+  "email": "teste1@example.com"
+}
+
+###Deletar user
+DELETE http://localhost:3000/clientes/1

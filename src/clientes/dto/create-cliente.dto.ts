@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateClienteDto {
   @ApiProperty({
@@ -10,6 +16,15 @@ export class CreateClienteDto {
   @IsNotEmpty({ message: 'The id field is required' })
   @MaxLength(100, { message: 'The id must be at most 255 characters long' })
   id?: string;
+
+  @ApiProperty({
+    description: 'Client CPF (11 digits)',
+    example: '12345678901',
+  })
+  @IsString({ message: 'The cpf must be a string' })
+  @IsNotEmpty({ message: 'The cpf field is required' })
+  @MaxLength(11, { message: 'The cpf must be at most 11 characters long' })
+  cpf: string;
 
   @ApiProperty({
     description: 'Client name',
@@ -27,6 +42,7 @@ export class CreateClienteDto {
   @IsString({ message: 'The email must be a string' })
   @IsNotEmpty({ message: 'The email field is required' })
   @MaxLength(255, { message: 'The email must be at most 255 characters long' })
+  @IsEmail({}, { message: 'The email must be a valid email address' })
   email: string;
 
   @ApiProperty({
@@ -36,6 +52,9 @@ export class CreateClienteDto {
   @IsString({ message: 'The phone must be a string' })
   @IsNotEmpty({ message: 'The phone field is required' })
   @MaxLength(20, { message: 'The phone must be at most 20 characters long' })
+  @IsPhoneNumber('BR', {
+    message: 'The phone must be a valid Brazilian phone number',
+  })
   phone: string;
 
   @ApiProperty({
