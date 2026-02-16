@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Conta } from './entities/conta.entity';
+import { Repository } from 'typeorm';
+import { Cliente } from 'src/clientes/entities/cliente.entity';
 
 @Injectable()
 export class ContasService {
-  create(createContaDto: CreateContaDto) {
-    return 'This action adds a new conta';
+  constructor(
+    @InjectRepository(Conta)
+    private readonly contaRepository: Repository<Conta>,
+    private readonly clienteRepository: Repository<Cliente>,
+  ) {}
+
+  async create(dto: CreateContaDto) {
+    const cliente = await this.clienteRepository.findOneBy({
+      id: dto.clienteId,
+    });
+    if (!cliente) {
+      throw new Error('Client not found');
+    }
+    const newConta = this.contaRepository.create({ cliente: cliente });
+    return this.contaRepository.save(newConta);
   }
 
   findAll() {
-    return `This action returns all contas`;
+    return this.contaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} conta`;
+  async findOne(id: string) {
+    const conta = await this.contaRepository.findOneBy({ id });
+    if (!conta) {
+      throw new Error('Account not found');
+    }
+    return conta;
   }
 
-  update(id: number, updateContaDto: UpdateContaDto) {
-    return `This action updates a #${id} conta`;
+  async update(id: string, dto: UpdateContaDto) {
+    const conta = await this.contaRepository.findOneBy({ id });
+    if (!conta) {
+      throw new Error('Account not found');
+    }
+    this.contaRepository.merge(conta, dto);
+    return this.contaRepository.save(conta);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} conta`;
+  async remove(id: string) {
+    const conta = await this.contaRepository.findOneBy({ id });
+    if (!conta) {
+      throw new Error('Account not found');
+    }
+    return this.contaRepository.remove(conta);
   }
 }

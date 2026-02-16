@@ -7,6 +7,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum ContaStatus {
+  UNLOCKED = 'unlocked',
+  BLOCKED = 'blocked',
+}
 @Entity()
 export class Conta {
   @PrimaryGeneratedColumn('uuid')
@@ -30,8 +34,15 @@ export class Conta {
   })
   balance: number;
 
+  @Column({
+    type: 'enum',
+    enum: ContaStatus,
+    default: ContaStatus.UNLOCKED,
+  })
+  status?: ContaStatus;
+
   @ManyToMany(() => Cliente, (cliente) => cliente.contas)
-  cliente: Cliente[];
+  cliente: Cliente;
 
   @BeforeInsert()
   generateAccountNumber() {

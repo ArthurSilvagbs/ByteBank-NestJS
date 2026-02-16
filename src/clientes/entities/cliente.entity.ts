@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinTable,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -40,7 +40,10 @@ export class Cliente {
   @CreateDateColumn({ name: 'updated_at' })
   updatedAt?: string;
 
-  @ManyToMany(() => Conta, (conta) => conta.cliente, { eager: true })
+  @OneToMany(() => Conta, (conta) => conta.cliente, {
+    eager: true,
+    cascade: true,
+  })
   @JoinTable({ name: 'cliente_titular' })
   contas: Conta[];
 }
