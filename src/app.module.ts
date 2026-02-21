@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Conta } from './contas/entities/conta.entity';
 import { Cliente } from './clientes/entities/cliente.entity';
-import { Transacao } from './transacoes/entities/transacoe.entity';
+import { Transacao } from './transacoes/entities/transacao.entity';
 
 @Module({
   imports: [

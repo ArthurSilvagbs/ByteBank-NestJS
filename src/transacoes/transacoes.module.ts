@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TransacoesService } from './transacoes.service';
 import { TransacoesController } from './transacoes.controller';
-import { Transacao } from './entities/transacoe.entity';
+import { Transacao } from './entities/transacao.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

@@ -1,9 +1,11 @@
 import { Cliente } from 'src/clientes/entities/cliente.entity';
+import { Transacao } from 'src/transacoes/entities/transacao.entity';
 import {
   BeforeInsert,
   Column,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -43,6 +45,12 @@ export class Conta {
 
   @ManyToMany(() => Cliente, (cliente) => cliente.contas)
   cliente: Cliente;
+
+  @OneToMany(() => Transacao, (transacao) => transacao.conta, {
+    eager: true,
+    cascade: true,
+  })
+  transacoes: Transacao[];
 
   @BeforeInsert()
   generateAccountNumber() {
