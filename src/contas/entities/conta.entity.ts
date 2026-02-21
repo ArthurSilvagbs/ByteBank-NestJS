@@ -3,11 +3,12 @@ import { Transacao } from 'src/transacoes/entities/transacao.entity';
 import {
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ManyToOne } from 'typeorm/browser';
 
 export enum ContaStatus {
   UNLOCKED = 'unlocked',
@@ -43,14 +44,26 @@ export class Conta {
   })
   status?: ContaStatus;
 
-  @ManyToMany(() => Cliente, (cliente) => cliente.contas)
+  @ManyToOne(() => Cliente, (cliente) => cliente.contas)
   cliente: Cliente;
 
-  @OneToMany(() => Transacao, (transacao) => transacao.conta, {
+  @OneToMany(() => Transacao, (transacao) => transacao.contaOrigem, {
     eager: true,
     cascade: true,
   })
-  transacoes: Transacao[];
+  entradas: Transacao[];
+
+  @OneToMany(() => Transacao, (transacao) => transacao.contaDestino, {
+    eager: true,
+    cascade: true,
+  })
+  saidas: Transacao[];
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt?: string;
+
+  @CreateDateColumn({ name: 'updated_at' })
+  updatedAt?: string;
 
   @BeforeInsert()
   generateAccountNumber() {

@@ -3,7 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -44,6 +43,5 @@ export class Cliente {
     eager: true,
     cascade: true,
   })
-  @JoinTable({ name: 'cliente_titular' })
   contas: Conta[];
 }

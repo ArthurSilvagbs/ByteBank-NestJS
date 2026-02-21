@@ -1,13 +1,34 @@
-import decimal from 'decimal.js';
 import { Conta } from 'src/contas/entities/conta.entity';
-import { Entity } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Transacao {
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
+
+  @ManyToOne(() => Conta, (conta) => conta.entradas)
   contaOrigem: Conta;
-  contaDestino: Conta;
-  valor: decimal;
-  createdAt: string;
-  conta: Conta;
+
+  @ManyToOne(() => Conta, (conta) => conta.saidas)
+  contaDestino?: Conta;
+
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  valor: number;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  dataHora?: Date;
 }
