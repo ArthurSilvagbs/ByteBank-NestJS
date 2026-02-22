@@ -10,7 +10,7 @@ import {
 } from '@nestjs/swagger';
 
 @ApiTags('Transacoes')
-@Controller('transacoes')
+@Controller('transacao')
 export class TransacoesController {
   constructor(private readonly transacoesService: TransacoesService) {}
 
@@ -19,7 +19,7 @@ export class TransacoesController {
   @ApiBadRequestResponse({
     description: 'Dados inseridos são inválidos',
   })
-  @Post()
+  @Post('deposit')
   deposit(@Body() createTransacoeDto: CreateTransacoeDto) {
     return this.transacoesService.createDeposit(createTransacoeDto);
   }
@@ -29,7 +29,7 @@ export class TransacoesController {
   @ApiBadRequestResponse({
     description: 'Dados inseridos são inválidos',
   })
-  @Post()
+  @Post('sake')
   sake(@Body() createTransacoeDto: CreateTransacoeDto) {
     return this.transacoesService.createSake(createTransacoeDto);
   }
@@ -39,7 +39,7 @@ export class TransacoesController {
   @ApiBadRequestResponse({
     description: 'Dados inseridos são inválidos',
   })
-  @Post()
+  @Post('transfer')
   transfer(@Body() createTransacoeDto: CreateTransacoeDto) {
     return this.transacoesService.createTransfer(createTransacoeDto);
   }

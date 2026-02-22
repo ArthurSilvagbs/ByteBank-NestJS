@@ -1,0 +1,38 @@
+###Get transação por id
+GET http://localhost:3000/transacao/1
+
+###Fazer Deposito
+POST http://localhost:3000/transacao/deposit
+Content-Type: application/json
+
+{
+  "name": "Teste1",
+  "cpf": "12345678902",
+  "email": "teste1@example.com",
+  "phone": "+5511999999999",
+  "address": "Rua Teste, 123, São Paulo, SP"
+}  
+
+###Fazer Saque
+POST http://localhost:3000/transacao/sake
+Content-Type: application/json
+
+{
+  "name": "Teste1",
+  "cpf": "12345678902",
+  "email": "teste1@example.com",
+  "phone": "+5511999999999",
+  "address": "Rua Teste, 123, São Paulo, SP"
+}  
+
+###Fazer Transferência
+POST http://localhost:3000/transacao/transfer
+Content-Type: application/json
+
+{
+  "name": "Teste1",
+  "cpf": "12345678902",
+  "email": "teste1@example.com",
+  "phone": "+5511999999999",
+  "address": "Rua Teste, 123, São Paulo, SP"
+}  
