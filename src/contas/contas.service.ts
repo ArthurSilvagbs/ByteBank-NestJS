@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Conta } from './entities/conta.entity';
 import { Repository } from 'typeorm';
 import { Cliente } from 'src/clientes/entities/cliente.entity';
+import { Transacao } from 'src/transacoes/entities/transacao.entity';
 
 @Injectable()
 export class ContasService {
@@ -13,6 +14,8 @@ export class ContasService {
     private readonly contaRepository: Repository<Conta>,
     @InjectRepository(Cliente)
     private readonly clienteRepository: Repository<Cliente>,
+    @InjectRepository(Transacao)
+    private readonly transacaoRepository: Repository<Transacao>,
   ) {}
 
   async create(dto: CreateContaDto) {
@@ -36,6 +39,15 @@ export class ContasService {
       throw new Error('Account not found');
     }
     return conta;
+  }
+
+  async findTrasactions(id: string) {
+    return await this.transacaoRepository.find({
+      where: {
+        contaOrigem: { id: id },
+      },
+      relations: ['contaOrigem', 'contaDestino'],
+    });
   }
 
   async update(id: string, dto: UpdateContaDto) {

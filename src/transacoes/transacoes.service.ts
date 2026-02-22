@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTransacoeDto } from './dto/create-transacoe.dto';
-import { UpdateTransacoeDto } from './dto/update-transacoe.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transacao } from './entities/transacao.entity';
 import { Repository } from 'typeorm';
@@ -33,15 +32,11 @@ export class TransacoesService {
     return this.transacaoRepository.find();
   }
 
-  findOne(id: string) {
-    return `This action returns a #{id} transacoe`;
-  }
-
-  update(id: string, dto: UpdateTransacoeDto) {
-    return `This action updates a #{id} transacoe`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #{id} transacoe`;
+  async findOne(id: string) {
+    const transacao = await this.transacaoRepository.findOneBy({ id });
+    if (!transacao) {
+      throw new Error('Transaction not found');
+    }
+    return transacao;
   }
 }
