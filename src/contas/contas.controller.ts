@@ -56,6 +56,18 @@ export class ContasController {
     return conta;
   }
 
+  @ApiOperation({ summary: 'Buscar extrato da conta referente ao ID' })
+  @ApiOkResponse({ description: 'Extrato encontrada com sucesso.' })
+  @ApiNotFoundResponse({ description: 'Extrato não encontrado.' })
+  @Get(':id')
+  async findExtrato(@Param('id') id: string) {
+    const conta = await this.contasService.findOne(id);
+    if (!conta) {
+      throw new Error('Account not found');
+    }
+    return this.contasService.findTrasactions(id);
+  }
+
   @ApiOperation({ summary: 'Atualizar uma conta existente' })
   @ApiOkResponse({ description: 'Conta atualizada com sucesso.' })
   @ApiBadRequestResponse({
