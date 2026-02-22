@@ -1,34 +1,54 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { TransacoesService } from './transacoes.service';
 import { CreateTransacoeDto } from './dto/create-transacoe.dto';
-import { UpdateTransacoeDto } from './dto/update-transacoe.dto';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('Transacoes')
 @Controller('transacoes')
 export class TransacoesController {
   constructor(private readonly transacoesService: TransacoesService) {}
 
+  @ApiOperation({ summary: 'Efetuar uma nova transação.' })
+  @ApiCreatedResponse({ description: 'Transação efetuada com sucesso.' })
+  @ApiBadRequestResponse({
+    description: 'Dados inseridos são inválidos',
+  })
   @Post()
-  create(@Body() createTransacoeDto: CreateTransacoeDto) {
+  deposit(@Body() createTransacoeDto: CreateTransacoeDto) {
+    return this.transacoesService.createDeposit(createTransacoeDto);
+  }
+
+  @ApiOperation({ summary: 'Efetuar uma nova transação.' })
+  @ApiCreatedResponse({ description: 'Transação efetuada com sucesso.' })
+  @ApiBadRequestResponse({
+    description: 'Dados inseridos são inválidos',
+  })
+  @Post()
+  sake(@Body() createTransacoeDto: CreateTransacoeDto) {
     return this.transacoesService.create(createTransacoeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.transacoesService.findAll();
+  @ApiOperation({ summary: 'Efetuar uma nova transação.' })
+  @ApiCreatedResponse({ description: 'Transação efetuada com sucesso.' })
+  @ApiBadRequestResponse({
+    description: 'Dados inseridos são inválidos',
+  })
+  @Post()
+  transfer(@Body() createTransacoeDto: CreateTransacoeDto) {
+    return this.transacoesService.create(createTransacoeDto);
   }
 
+  @ApiOperation({ summary: 'Consultar uma transação especifica por ID.' })
+  @ApiOkResponse({ description: 'Transação encontrada com sucesso.' })
+  @ApiBadRequestResponse({ description: 'Transação não encontrada.' })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.transacoesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransacoeDto: UpdateTransacoeDto) {
-    return this.transacoesService.update(+id, updateTransacoeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.transacoesService.remove(+id);
+    return this.transacoesService.findOne(id);
   }
 }

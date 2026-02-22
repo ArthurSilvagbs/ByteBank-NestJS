@@ -26,7 +26,7 @@ export class Conta {
     nullable: false,
     unique: true,
   })
-  number: string;
+  accountNumber: string;
 
   @Column({
     name: 'balance',
@@ -67,6 +67,6 @@ export class Conta {
 
   @BeforeInsert()
   generateAccountNumber() {
-    this.number = Math.floor(10000 + Math.random() * 90000).toString();
+    this.accountNumber = Math.floor(10000 + Math.random() * 90000).toString();
   }
 }

@@ -14,7 +14,7 @@ export class TransacoesService {
     private readonly contaRepository: Repository<Conta>,
   ) {}
 
-  async create(dto: CreateTransacoeDto) {
+  async createDeposit(dto: CreateTransacoeDto) {
     const conta = await this.contaRepository.findOneBy({
       id: dto.contaOrigemId,
     });
@@ -25,11 +25,46 @@ export class TransacoesService {
       contaOrigem: conta,
       valor: dto.valor,
     });
+    conta.balance += dto.valor;
     return this.transacaoRepository.save(newTransacao);
   }
 
-  findAll() {
-    return this.transacaoRepository.find();
+  async createSake(dto: CreateTransacoeDto) {
+    const conta = await this.contaRepository.findOneBy({
+      id: dto.contaOrigemId,
+    });
+    if (!conta) {
+      throw new Error('Account not found');
+    }
+    const newTransacao = this.transacaoRepository.create({
+      contaOrigem: conta,
+      valor: dto.valor,
+    });
+    conta.balance -= dto.valor;
+    return this.transacaoRepository.save(newTransacao);
+  }
+
+  async createTransfer(dto: CreateTransacoeDto) {
+    const contaOrigem = await this.contaRepository.findOneBy({
+      id: dto.contaOrigemId,
+    });
+    if (!contaOrigem) {
+      throw new Error('Account not found');
+    }
+    const contaDestino = await this.contaRepository.findOneBy({
+      id: dto.contaOrigemId,
+    });
+    if (!contaDestino) {
+      throw new Error('Account not found');
+    }
+    const newTransacao = this.transacaoRepository.create({
+      contaOrigem: contaOrigem,
+      contaDestino: contaDestino,
+      valor: dto.valor,
+    });
+    contaOrigem.balance -= dto.valor;
+    contaDestino.balance += dto.valor;
+    return this.transacaoRepository.save(newTransacao);
   }
 
   async findOne(id: string) {
