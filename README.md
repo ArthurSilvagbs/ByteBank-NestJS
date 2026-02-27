@@ -1,98 +1,167 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ByteBank-NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descrição do Projeto
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O ByteBank-NestJS é uma API RESTful desenvolvida com NestJS para simular um sistema bancário básico. Ele gerencia clientes, contas e transações, fornecendo funcionalidades essenciais para operações financeiras. A aplicação utiliza PostgreSQL como banco de dados e TypeORM para a persistência de dados, além de contar com Docker Compose para facilitar a configuração do ambiente de desenvolvimento.
 
-## Description
+## Tecnologias Utilizadas
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este projeto foi construído utilizando as seguintes tecnologias:
 
-## Project setup
+*   **NestJS**: Um framework progressivo Node.js para a construção de aplicações server-side eficientes e escaláveis.
+*   **TypeScript**: Linguagem de programação que adiciona tipagem estática ao JavaScript, melhorando a manutenibilidade e a detecção de erros.
+*   **TypeORM**: Um ORM (Object Relational Mapper) que suporta os bancos de dados mais populares e ajuda a escrever aplicações robustas e escaláveis.
+*   **PostgreSQL**: Um sistema de gerenciamento de banco de dados objeto-relacional poderoso, de código aberto e altamente extensível.
+*   **Docker & Docker Compose**: Utilizados para orquestrar o ambiente de desenvolvimento, garantindo que o banco de dados PostgreSQL seja facilmente configurado e executado.
+*   **Swagger (OpenAPI)**: Para documentação interativa da API, permitindo testar os endpoints diretamente do navegador.
 
-```bash
-$ npm install
+## Arquitetura
+
+A arquitetura do projeto segue os princípios do NestJS, organizando o código em módulos (`clientes`, `contas`, `transacoes`), controladores, serviços e entidades. Isso promove a modularidade, a separação de responsabilidades e a facilidade de manutenção.
+
+### Módulos Principais:
+
+*   **ClientesModule**: Gerencia as operações relacionadas aos clientes, como criação, consulta e atualização.
+*   **ContasModule**: Responsável pela lógica de negócios das contas bancárias, incluindo criação, consulta, depósitos, saques e transferências.
+*   **TransacoesModule**: Lida com o registro e a consulta de todas as transações realizadas no sistema.
+
+## Funcionalidades
+
+O ByteBank-NestJS oferece as seguintes funcionalidades:
+
+*   **Gerenciamento de Clientes**: Cadastro, consulta e atualização de informações de clientes.
+    *   `id`: UUID gerado automaticamente.
+    *   `name`: Nome do cliente.
+    *   `cpf`: CPF do cliente (único).
+    *   `email`: Email do cliente.
+    *   `phone`: Telefone do cliente.
+    *   `address`: Endereço do cliente.
+    *   `createdAt`, `updatedAt`: Timestamps de criação e atualização.
+*   **Gerenciamento de Contas**: Criação de contas associadas a clientes, com controle de saldo e status.
+    *   `id`: UUID gerado automaticamente.
+    *   `accountNumber`: Número da conta (gerado automaticamente, único).
+    *   `balance`: Saldo da conta (decimal, padrão 0).
+    *   `status`: Status da conta (`unlocked` ou `blocked`).
+    *   `cliente`: Relacionamento ManyToOne com Cliente.
+    *   `entradas`, `saidas`: Relacionamentos OneToMany com Transacao.
+    *   `createdAt`, `updatedAt`: Timestamps de criação e atualização.
+*   **Realização de Transações**: Registro de depósitos, saques e transferências entre contas.
+    *   `id`: UUID gerado automaticamente.
+    *   `contaOrigem`: Conta de origem da transação.
+    *   `contaDestino`: Conta de destino da transação (opcional para saques/depósitos).
+    *   `valor`: Valor da transação (decimal).
+    *   `dataHora`: Timestamp da transação.
+
+## Configuração do Ambiente
+
+Para configurar e rodar o projeto localmente, siga os passos abaixo:
+
+### Pré-requisitos
+
+Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+
+### Passos para Configuração
+
+1.  **Clone o repositório:**
+
+    ```bash
+    git clone https://github.com/ArthurSilvagbs/ByteBank-NestJS.git
+    cd ByteBank-NestJS
+    ```
+
+2.  **Configure as variáveis de ambiente:**
+
+    Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+    ```env
+    PORT=3000
+    DB_HOST=localhost
+    DB_PORT=5437
+    DB_USERNAME=postgres
+    DB_PASSWORD=postgres
+    DB_DATABASE=postgres
+    ```
+
+    *Nota: O `DB_PORT` está configurado para `5437` no `docker-compose.yml` para evitar conflitos com uma instalação padrão do PostgreSQL na porta `5432`.*
+
+3.  **Inicie o banco de dados com Docker Compose:**
+
+    ```bash
+    docker-compose up -d
+    ```
+
+    Este comando irá subir um container PostgreSQL e criar o banco de dados conforme configurado no `create-db.sql` e `docker-compose.yml`.
+
+4.  **Instale as dependências do projeto:**
+
+    ```bash
+    npm install
+    # ou yarn install
+    ```
+
+## Como Rodar o Projeto
+
+Após configurar o ambiente, você pode iniciar a aplicação NestJS:
+
+*   **Modo Desenvolvimento (com watch):**
+
+    ```bash
+    npm run start:dev
+    ```
+
+*   **Modo Produção:**
+
+    ```bash
+    npm run start:prod
+    ```
+
+O servidor estará disponível em `http://localhost:3000` (ou na porta especificada em seu `.env`).
+
+## Endpoints da API (Swagger)
+
+Para acessar a documentação interativa da API e testar os endpoints, navegue para:
+
+`http://localhost:3000/docs`
+
+## Estrutura do Projeto
+
+A estrutura de diretórios do projeto é organizada da seguinte forma:
+
+```
+ByteBank-NestJS/
+├── src/
+│   ├── app.module.ts
+│   ├── main.ts
+│   ├── clientes/
+│   │   ├── dto/
+│   │   ├── entities/
+│   │   ├── clientes.controller.ts
+│   │   ├── clientes.module.ts
+│   │   └── clientes.service.ts
+│   ├── contas/
+│   │   ├── dto/
+│   │   ├── entities/
+│   │   ├── contas.controller.ts
+│   │   ├── contas.module.ts
+│   │   └── contas.service.ts
+│   └── transacoes/
+│       ├── dto/
+│       ├── entities/
+│       ├── transacoes.controller.ts
+│       ├── transacoes.module.ts
+│       └── transacoes.service.ts
+├── test/
+├── docker-compose.yml
+├── create-db.sql
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-## Compile and run the project
+## Licença
 
-```bash
-# development
-$ npm run start
+Este projeto está licenciado sob a licença UNLICENSED.
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+*Gerado por Manus AI em 27 de fevereiro de 2026.*
