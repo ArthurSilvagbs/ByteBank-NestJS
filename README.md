@@ -157,11 +157,3 @@ ByteBank-NestJS/
 ├── tsconfig.json
 └── README.md
 ```
-
-## Licença
-
-Este projeto está licenciado sob a licença UNLICENSED.
-
----
-
-*Gerado por Manus AI em 27 de fevereiro de 2026.*
